@@ -1,13 +1,18 @@
 package com.example.springboot.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.example.springboot.entity.Calresult;
+import com.example.springboot.entity.ResultLength;
 import com.example.springboot.entity.Station;
 import com.example.springboot.mapper.StationMapper;
 import com.example.springboot.service.IStationService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -20,6 +25,8 @@ import java.util.List;
  */
 @Service
 public class StationServiceImpl extends ServiceImpl<StationMapper, Station> implements IStationService {
+    @Autowired
+    private  CalresultServiceImpl calresultService;
 
     @Resource
     private StationMapper stationMapper;
@@ -36,14 +43,24 @@ public class StationServiceImpl extends ServiceImpl<StationMapper, Station> impl
     public double[] selectLength47() {
 
         QueryWrapper<Station> Wrapper = new QueryWrapper<>();Wrapper.eq("facility","让47站");
-        int size = stationMapper.selectList(Wrapper).size();  //有相同的代码块在类里，可以把这部分代码封装成一个方法，提高代码可读性。
+        List<Station> selectList = stationMapper.selectList(Wrapper);
+        int size = selectList.size();  //有相同的代码块在类里，可以把这部分代码封装成一个方法，提高代码可读性。
         double[] lenArr = new double[size];
         for (int i = 0; i < size; i++) {
-            Double length = stationMapper.selectList(Wrapper).get(i).getPipeLength();
+            ResultLength oneResultLength = new ResultLength();
+            oneResultLength.setId(selectList.get(i).getId());
+            Double length = selectList.get(i).getPipeLength();
             lenArr[i] = length * 1000;
+            oneResultLength.setResultLength(lenArr[i]);
+            updateResult(oneResultLength);
         }
+        Calresult calresult = new Calresult();
+        calresult.setResultLength(Arrays.toString(lenArr));
+        calresultService.insertOneCalresult(calresult);
         return lenArr;  //[3610 7270 2275 4036]
     }
+
+
 
     @Override
     public double[] CalGoInDia47() {
@@ -229,5 +246,13 @@ public class StationServiceImpl extends ServiceImpl<StationMapper, Station> impl
             PressureArr47[i] = v1[i] + v2[i];
         }
         return PressureArr47;
+    }
+
+    @Override
+    public int updateResult(ResultLength resultLength) {
+        UpdateWrapper<Station> Wrapper = new  UpdateWrapper<>();
+        Wrapper.eq("id",resultLength.getId()).set("result_length",resultLength.getResultLength());
+        int i = stationMapper.update(null,Wrapper);
+        return 0;
     }
 }

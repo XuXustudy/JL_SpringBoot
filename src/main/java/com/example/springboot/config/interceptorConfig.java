@@ -9,7 +9,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 /**
  * @author xuyihao
  * @date 2023-01-17
- * @apiNote
+ * @apiNote 拦截器设置
  */
 @Configuration
 public class interceptorConfig implements WebMvcConfigurer {

@@ -1,0 +1,69 @@
+package com.example.springboot.controller;
+
+
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.springframework.web.bind.annotation.*;
+import javax.annotation.Resource;
+import java.util.List;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+
+import com.example.springboot.service.IConnectionrelationshiptableService;
+import com.example.springboot.entity.Connectionrelationshiptable;
+
+import org.springframework.web.bind.annotation.RestController;
+
+/**
+ * <p>
+ *  前端控制器
+ * </p>
+ *
+ * @author xyh
+ * @since 2023-04-26
+ */
+@RestController
+@RequestMapping("/connectionrelationshiptable")
+public class ConnectionrelationshiptableController {
+
+    @Resource
+    private IConnectionrelationshiptableService connectionrelationshiptableService;
+
+    //新增或者更新数据接口
+    @PostMapping
+    public boolean save(@RequestBody Connectionrelationshiptable connectionrelationshiptable){
+            return connectionrelationshiptableService.saveOrUpdate(connectionrelationshiptable);
+    }
+
+    //删除数据接口
+    @DeleteMapping("/{id}")
+    public boolean delete(@PathVariable Integer id){
+            return connectionrelationshiptableService.removeById(id);
+    }
+
+    //批量删除数据接口
+    @PostMapping("/del/batch")
+    public boolean deleteBatch(@RequestBody List<Integer> ids){
+        return connectionrelationshiptableService.removeBatchByIds(ids);
+    }
+
+    //查询所有数据接口
+    @GetMapping
+    public List<Connectionrelationshiptable> findAll(){  //mapper中UserMapper的findAll方法，返回值是List<User>
+        return connectionrelationshiptableService.list();
+    }
+
+    //根据id查询数据接口
+    @GetMapping("/{id}")
+    public Connectionrelationshiptable findOne(@PathVariable Integer id) {
+        return connectionrelationshiptableService.getById(id);
+    }
+
+    //分页查询数据接口
+    @GetMapping("/page")
+    public Page<Connectionrelationshiptable> findPage(@RequestParam Integer pageNum,
+                                    @RequestParam Integer pageSize) {
+        QueryWrapper<Connectionrelationshiptable> queryWrapper = new QueryWrapper<>();
+        queryWrapper.orderByDesc("id");
+        return connectionrelationshiptableService.page(new Page<>(pageNum, pageSize),queryWrapper);
+    }
+}
+

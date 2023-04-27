@@ -1,6 +1,7 @@
 package com.example.springboot.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.example.springboot.entity.ResultLength;
 import com.example.springboot.entity.Station;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -31,4 +32,6 @@ public interface IStationService extends IService<Station> {
     double[][] CalLambda47(double Q);
 
     double[] CalDeltaPressure47(double Q, double a);
+
+    int updateResult(ResultLength resultLength);
 }

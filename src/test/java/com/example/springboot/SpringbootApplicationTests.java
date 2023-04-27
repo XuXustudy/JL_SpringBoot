@@ -1,5 +1,6 @@
 package com.example.springboot;
 
+import com.example.springboot.mapper.NetworknodetableMapper;
 import com.example.springboot.service.impl.NodeServiceImpl;
 import com.example.springboot.service.impl.OptimizeServiceImpl;
 import com.example.springboot.service.impl.StationServiceImpl;
@@ -21,6 +22,9 @@ class SpringbootApplicationTests {
     @Resource
     private NodeServiceImpl nodeimpl;
 
+    @Resource
+    private NetworknodetableMapper networknodetableMapper;
+
     @Test
     public void testZero() {
         double[] doubles = stationService.selectLength47();
@@ -32,10 +36,14 @@ class SpringbootApplicationTests {
         optimizeService.Optimize118(35);
     }
 
-
     @Test
     public void find() {
         System.out.println(nodeimpl.getById(1));
 
+    }
+
+    @Test
+    public void testTwo() {
+        System.out.println("总共：" + networknodetableMapper.Counts());
     }
 }

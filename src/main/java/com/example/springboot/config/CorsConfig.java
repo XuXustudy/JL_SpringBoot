@@ -3,7 +3,7 @@ package com.example.springboot.config;
 /**
  * @author xuyihao
  * @date 2022-12-28
- * @apiNote
+ * @apiNote springboot配置CORS——跨域问题
  */
 
 import org.springframework.context.annotation.Bean;
