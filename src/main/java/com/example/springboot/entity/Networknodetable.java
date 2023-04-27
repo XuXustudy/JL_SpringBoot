@@ -35,12 +35,12 @@ public class Networknodetable implements Serializable {
     private String nodeName;
 
     @ApiModelProperty("节点经度")
-    private String nodeLat;
+    private String lat;
 
     @ApiModelProperty("节点纬度")
-    private String nodeLng;
+    private String lng;
 
-    @ApiModelProperty("所属官网的ID")
+    @ApiModelProperty("所属管网的ID")
     private Integer uid;
 
 

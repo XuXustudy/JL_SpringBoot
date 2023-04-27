@@ -25,7 +25,8 @@ import java.util.List;
  */
 @Service
 public class StationServiceImpl extends ServiceImpl<StationMapper, Station> implements IStationService {
-    @Autowired
+
+    @Resource
     private  CalresultServiceImpl calresultService;
 
     @Resource

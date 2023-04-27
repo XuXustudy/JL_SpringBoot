@@ -7,6 +7,8 @@ import com.example.springboot.mapper.NetworknodetableMapper;
 import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
+
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 
 import com.example.springboot.service.INetworknodetableService;
@@ -28,9 +30,6 @@ public class NetworknodetableController {
 
     @Resource
     private INetworknodetableService networknodetableService;
-
-    @Resource
-    private NetworknodetableMapper networknodetableMapper;
 
     //新增或者更新数据接口
     @PostMapping
@@ -74,14 +73,22 @@ public class NetworknodetableController {
 
     //查询管网节点表中对应该管网的节点数
     @GetMapping("/getnodecounts")
-    public Result selectNodeCounts() {
-        return Result.success(networknodetableMapper.Counts());
+    public Result NodeCounts() {
+        return Result.success(networknodetableService.selectNodeCounts());
     }
 
-    //查询管网节点表中对应的该管网的节点坐标
-    //@GetMapping("/getnodelocations")
-    //public List<> selectNodeLocation() {
-    //    networknodetableService.
-    //}
+    //查询管网节点表中所有的节点坐标
+    @GetMapping("/getallnodelocations")
+    public Result NodeLocation() {
+        return Result.success(networknodetableService.selectNodeLocation());
+    }
+
+    //按条件查询管网节点表中对应的该管网的节点坐标
+    @GetMapping("/getnodelocations")
+    //http://localhost:9090/networknodetable/getnodelocations?condition=
+    public List<Map<String, Object>> queryData(@RequestParam(defaultValue = "") String condition) {
+        List<Map<String, Object>> resultList = networknodetableService.queryDataByCondition(condition);
+        return resultList;
+    }
 }
 

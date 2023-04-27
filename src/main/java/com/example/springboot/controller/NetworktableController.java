@@ -59,6 +59,7 @@ public class NetworktableController {
     }
 
     //分页查询数据接口
+    //http://localhost:9090/networktable/page?pageNum=1&pageSize=10&networkName=
     @GetMapping("/page")
     public Result findPage(@RequestParam Integer pageNum,
                            @RequestParam Integer pageSize,
